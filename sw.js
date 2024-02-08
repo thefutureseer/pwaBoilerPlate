@@ -9,3 +9,13 @@ self.addEventListener("install", e => {
     })
   );
 });
+
+//add event listener for fetch request to make app installable
+self.addEventListener("fetch", e => {
+  e.respondWith(
+    //cache first then go to the network if needed
+    caches.match(e.request).then(response => {
+      return response || fetch(e.request);
+    })
+  );
+});
